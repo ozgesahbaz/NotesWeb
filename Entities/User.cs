@@ -6,6 +6,7 @@ namespace WebApplication_Notes.Entities
     [Table("Users")]
     public class User
     {
+        //user
         [Key]
         public int Id { get; set; }
 
