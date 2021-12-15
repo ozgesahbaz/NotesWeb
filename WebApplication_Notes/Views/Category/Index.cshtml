@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Category>
+@{
+    ViewData["Title"] = "Kategoriler";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<div class="row p-4">
+    <div class="col">
+        <a class="btn btn-primary" asp-action="Create"><i class="fas fa-plus me-2"></i>Yeni Kategori</a>
+    </div>
+</div>
+
+<div class="row p-4">
+    <div class="col">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(m => m.Name)</th>
+                        <th>@Html.DisplayNameFor(m => m.IsHidden)</th>
+                        <th>@Html.DisplayNameFor(m => m.CreatedAt)</th>
+                        <th>@Html.DisplayNameFor(m => m.Desc)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Category category in Model)
+                    {
+                        <tr>
+                            <td>@category.Name</td>
+                            <td><i class="fas @(category.IsHidden ? "fa-check text-success" : "fa-times text-danger")"></i></td>
+                            <td>@category.CreatedAt</td>
+                            <td>@category.Desc</td>
+                            <td class="text-end" width="150">
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <a class="btn btn-outline-warning btn-sm" asp-action="Edit" asp-route-id="@category.Id"><i class="fas fa-edit"></i></a>
+                                    <a class="btn btn-outline-info btn-sm" asp-action="Details" asp-route-id="@category.Id"><i class="fas fa-search"></i></a>
+                                    <a class="btn btn-outline-danger btn-sm" asp-action="Delete" asp-route-id="@category.Id"><i class="fas fa-trash"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

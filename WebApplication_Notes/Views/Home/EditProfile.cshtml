@@ -1,0 +1,65 @@
+﻿@model User
+@{
+    ViewData["Title"] = "Profil Düzenle";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<div class="row pt-4">
+    <div class="col-3">
+        <img class="img-thumbnail rounded mx-auto d-block rounded-circle" src="/uploads/images/profiles/@Model.ProfileImageName" />
+
+        <form method="post" asp-action="ProfileImageUpload" enctype="multipart/form-data" class="mt-3 text-center">
+            <div class="row">
+                <div class="col-10 offset-1">
+                    <input type="file" id="profileImage" name="profileImage" class="form-control" />
+                    <p><small class="small">Lütfen sadece resim dosyası seçiniz.(jpeg, jpg, png)</small></p>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-upload me-2"></i>Yükle</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-6">
+        <h5>Bilgileri Güncelle</h5>
+        <hr />
+
+        <form method="post" asp-action="ProfileSaveInfo">
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
+                <input type="text" class="form-control" placeholder="First Name" />
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
+                <input type="text" class="form-control" placeholder="Last Name" />
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                <input type="email" class="form-control" placeholder="Email" />
+            </div>
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save me-2"></i>Kaydet</button>
+            </div>
+        </form>
+
+        <h5>Şifre Güncelle</h5>
+        <hr />
+        <form method="post" asp-action="ProfileChangePassword">
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                <input type="password" class="form-control" placeholder="password" />
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                <input type="password" class="form-control" placeholder="re-password" />
+            </div>
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save me-2"></i>Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+

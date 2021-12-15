@@ -1,0 +1,118 @@
+﻿
+<div class="row">
+    <div class="col">
+        <h1>AJAX Samples</h1>
+        <hr />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+        <h2>Partial View Yükleme</h2>
+        <hr />
+        <button class="btn btn-primary" onclick="loadList1Partial()">Verileri Yükle</button>
+        <div id="list1" class="mt-4">
+
+        </div>
+    </div>
+
+    <div class="col-6">
+        <h2>JSON Yükleme</h2>
+        <hr />
+        <button class="btn btn-primary" onclick="loadList2Data()">Verileri Yükle</button>
+        <button class="btn btn-primary" onclick="loadList2DataWithPost()">Verileri Gönder</button>
+        <span><input type="text" id="txtData" class="form-control" style="width:auto; float:right;" /></span>
+        <div id="list2" class="mt-4">
+
+        </div>
+    </div>
+</div>
+
+<div id="loading" class="alert alert-info text-center" style="display:none;">
+    <i class="fa fa-sync fa-spin me-2"></i>yükleniyor.
+</div>
+
+@section Scripts{
+
+    <script>
+        $(function () {
+            loadList1Partial();
+            loadList2Data();
+        });
+
+        function loadList1Partial() {
+            /*$("#list1").empty();*/
+            $("#loading").clone().prependTo("#list1").show();
+            $("#list1").load("/Test/GetTestList1Partial");
+        }
+
+        function loadList2Data() {
+            $("#loading").clone().prependTo("#list2").show();
+
+            $.ajax({
+                method: "get",
+                url: "/Test/GetTestList2Data",
+            }).done(function (data, textStatus, jqXHR) {
+                //console.log(data);
+
+                var ul = $("<ul class='list-group'></ul>");
+
+                for (var i = 0; i < data.length; i++) {
+                    var item = data[i];
+
+                    var li = $("<li class='list-group-item'></li>");
+                    li.text(item);
+
+                    ul.append(li);
+                }
+
+                $("#list2").empty().append(ul);
+
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                var err = $("<div class='alert alert-danger text-center'>Hata oluştu. Lütfen tekrar deneyiniz.</div>");
+                $("#list2").empty().append(err);
+
+            }).always(function () {
+
+            });
+        }
+
+        function loadList2DataWithPost() {
+            $("#loading").clone().prependTo("#list2").show();
+
+            var txt = $("#txtData").val();
+            var obj = {
+                text : txt
+            };
+
+            $.ajax({
+                method: "post",
+                url: "/Test/GetTestList2DataWithPost",
+                data: obj
+            }).done(function (data, textStatus, jqXHR) {
+                //console.log(data);
+
+                var ul = $("<ul class='list-group'></ul>");
+
+                for (var i = 0; i < data.length; i++) {
+                    var item = data[i];
+
+                    var li = $("<li class='list-group-item'></li>");
+                    li.text(item);
+
+                    ul.append(li);
+                }
+
+                $("#list2").empty().append(ul);
+
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                var err = $("<div class='alert alert-danger text-center'>Hata oluştu. Lütfen tekrar deneyiniz.</div>");
+                $("#list2").empty().append(err);
+
+            }).always(function () {
+
+            });
+        }
+    </script>
+
+}

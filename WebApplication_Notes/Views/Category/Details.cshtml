@@ -1,0 +1,29 @@
+﻿@model Category
+@{
+    ViewData["Title"] = "Kategori Detayları";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<div class="row p-4">
+    <div class="col-6">
+        <dl class="row">
+            <dt class="col-6">@Html.DisplayNameFor(m => m.Name)</dt>
+            <dd class="col-6">@Model.Name</dd>
+
+            <dt class="col-6">@Html.DisplayNameFor(m => m.CreatedAt)</dt>
+            <dd class="col-6">@Model.CreatedAt</dd>
+
+            <dt class="col-6">@Html.DisplayNameFor(m => m.IsHidden)</dt>
+            <dd class="col-6"><i class="fas @(Model.IsHidden ? "fa-check text-success" : "fa-times text-danger")"></i></dd>
+
+            <dt class="col-6">@Html.DisplayNameFor(m => m.Desc)</dt>
+            <dd class="col-6">@Model.Desc</dd>
+        </dl>
+        <div class="mt-4">
+            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit me-2"></i>Düzenle</a>
+            <a class="btn btn-secondary" asp-action="Index"><i class="fas fa-arrow-left me-2"></i>Listeye Dön!</a>
+        </div>
+    </div>
+</div>

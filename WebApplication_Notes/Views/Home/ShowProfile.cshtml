@@ -1,0 +1,28 @@
+﻿@model User
+@{
+    ViewData["Title"] = "Profil";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<div class="row pt-4">
+    <div class="col-3">
+        <img class="img-thumbnail rounded mx-auto d-block rounded-circle" src="/uploads/images/profiles/@Model.ProfileImageName">
+    </div>
+    <div class="col-6">
+        <h5 class="display-4">@Model.Name @Model.Surname</h5>
+        <dl class="row">
+            <dt class="col-3">Kullanıcı Adı</dt>
+            <dd class="col-9">@Model.Username</dd>
+
+            <dt class="col-3">E-Posta Adresi</dt>
+            <dd class="col-9">@Model.Email</dd>
+
+            <dt class="col-3"></dt>
+            <dd class="col-9"><a href="#">ve dahası...</a></dd>
+        </dl>
+    </div>
+</div>
+
+

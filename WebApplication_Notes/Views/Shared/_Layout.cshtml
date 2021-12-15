@@ -1,0 +1,149 @@
+﻿@{
+    string username = ViewContext.HttpContext.Session.GetString(Constants.SessionUsername);
+    string userRole = ViewContext.HttpContext.Session.GetString(Constants.SessionUserRole);
+    bool isUserLogin = string.IsNullOrEmpty(username) ? false : true;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Notes</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Notes</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        @if (isUserLogin)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-wrench me-2"></i>Yönetim
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" asp-action="Create" asp-controller="Note"><i class="fas fa-plus me-2"></i>Not Ekle</a></li>
+                                    <li><a class="dropdown-item" asp-action="Index" asp-controller="Note"><i class="fas fa-th-list me-2"></i>Notlarım</a></li>
+                                    <li><a class="dropdown-item" asp-action="Index" asp-controller="Note"><i class="fas fa-heart me-2"></i>Beğendiklerim</a></li>
+
+                                    @if (userRole == Constants.RoleAdmin)
+                                    {
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" asp-action="Create" asp-controller="Category"><i class="fas fa-plus me-2"></i>Kategori Ekle</a></li>
+                                        <li><a class="dropdown-item" asp-action="Index" asp-controller="Category"><i class="fas fa-th-list me-2"></i>Kategori Yönet</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" asp-action="Create" asp-controller="User"><i class="fas fa-user me-2"></i>Kullanıcı Ekle</a></li>
+                                        <li><a class="dropdown-item" asp-action="Index" asp-controller="User"><i class="fas fa-users me-2"></i>Kullanıcı Yönet</a></li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-th-list me-2"></i>Kategoriler
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-th-list me-2"></i>Tümü</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-th-list me-2"></i>Category 1</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-th-list me-2"></i>Category 2</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">
+                                <i class="fas fa-share-alt me-2"></i>Son Paylaşılanlar
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">
+                                <i class="fas fa-heart me-2"></i>En Beğenilenler
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        @if (isUserLogin == false)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Login">
+                                    <i class="fas fa-sign-in-alt me-2"></i>Giriş
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Register">
+                                    <i class="fas fa-user me-2"></i>Kayıt
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user me-2"></i>@username
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" asp-action="ShowProfile" asp-controller="Home"><i class="fas fa-eye me-2"></i>Profil Göster</a></li>
+                                    <li><a class="dropdown-item" asp-action="EditProfile" asp-controller="Home"><i class="fas fa-user-edit me-2"></i>Profil Düzenle</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item text-danger" asp-action="DeleteProfile" asp-controller="Home"><i class="fas fa-trash me-2"></i>Profil Sil</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" asp-action="SignOut" asp-controller="Home"><i class="fas fa-sign-out-alt me-2"></i>Çıkış</a></li>
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    @await RenderSectionAsync("Carousel", required: false)
+
+    <div class="container-fluid mt-3">
+        <main role="main" class="pb-5">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted p-4">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-8">
+                    <div>Tüm hakları saklıdır. &copy; 2021 - Notes</div>
+                    <div>
+                        @*Seçilen HTML 'i div içine hızlıca yerleştirme kısayolu : ALT+SHIFT+W*@
+                        <a asp-area="" asp-controller="Home" asp-action="Privacy">Gizlilik</a> |
+                        <a asp-area="" asp-controller="Home" asp-action="Contact">İletişim</a> |
+                        <a asp-area="" asp-controller="Home" asp-action="Login">Giriş</a> |
+                        <a asp-area="" asp-controller="Home" asp-action="Register">Kayıt</a>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-4">
+                    <div class="input-group my-3">
+                        <input type="text" class="form-control" placeholder="E-Posta adresinizi girerek e-bültene abone olun!">
+                        <button class="btn btn-primary" type="button">
+                            <i class="fa fa-paper-plane me-2"></i>Gönder
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

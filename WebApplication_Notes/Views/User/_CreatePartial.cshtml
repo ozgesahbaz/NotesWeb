@@ -1,0 +1,46 @@
+﻿@model UserCreateViewModel
+
+<div class="row p-4">
+    <div class="col-12">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form method="post">
+            <div class="mb-3">
+                <label asp-for="Username" class="form-label"></label>
+                <input asp-for="Username" class="form-control" placeholder="john_doe" />
+                <span asp-validation-for="Username" class="text-danger small"></span>
+                @*<div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>*@
+            </div>
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" placeholder="johndoe@@mail.com" />
+                <span asp-validation-for="Email" class="text-danger small"></span>
+                @*<div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>*@
+            </div>
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label"></label>
+                <input asp-for="Password" class="form-control" placeholder="234FGHJ34" />
+                <span asp-validation-for="Password" class="text-danger small"></span>
+                @*<div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>*@
+            </div>
+            <div class="mb-3">
+                <label asp-for="RePassword" class="form-label"></label>
+                <input asp-for="RePassword" class="form-control" placeholder="234FGHJ34" />
+                <span asp-validation-for="RePassword" class="text-danger small"></span>
+                @*<div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>*@
+            </div>
+            <div class="mb-3 form-check">
+                <input asp-for="IsActive" class="form-check-input">
+                <label asp-for="IsActive" class="form-check-label"></label>
+            </div>
+            <div class="mb-3 form-check">
+                <input asp-for="IsAdmin" class="form-check-input">
+                <label asp-for="IsAdmin" class="form-check-label"></label>
+            </div>
+
+            <div class="text-end">
+                <button class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times me-2"></i>Kapat</button>
+                <button type="button" class="save btn btn-primary" onclick="createUser();"><i class="fas fa-save me-2"></i>Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>

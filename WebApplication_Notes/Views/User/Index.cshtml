@@ -1,0 +1,128 @@
+﻿@model IEnumerable<User>
+@{
+    ViewData["Title"] = "Kullanıcılar";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<div class="row p-4">
+    <div class="col">
+        <a class="btn btn-primary" asp-action="Create" data-bs-toggle="modal" data-bs-target="#modalUserCreate">
+            <i class="fas fa-plus me-2"></i>Yeni Kullanıcı
+        </a>
+    </div>
+</div>
+
+<div class="row p-4">
+    <div class="col" id="userlist">
+        <partial name="_ListPartial" model="@Model" />
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalUserCreate" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Yeni Kullanıcı Oluştur</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <partial name="_CreatePartial" model="@(null)" />
+                </div>
+                <div class="validation-summary-errors small text-danger">
+                </div>
+            </div>
+            @*<div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save</button>
+                </div>*@
+        </div>
+    </div>
+</div>
+
+<div class="d-none">
+    <div id="loading">
+        <div class="template">
+            <div class="text-center alert alert-info">
+                <i class="fa fa-sync-alt fa-spin me-2"></i>Yükleniyor.. Lütfen bekleyiniz..
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function createUser() {
+            var uname = $("#modalUserCreate #Username").val();
+            var email = $("#modalUserCreate #Email").val();
+            var pass = $("#modalUserCreate #Password").val();
+            var repass = $("#modalUserCreate #RePassword").val();
+            var active = $("#modalUserCreate #IsActive").prop("checked");
+            var admin = $("#modalUserCreate #IsAdmin").prop("checked");
+
+            var model = {
+                "username": uname,
+                "email": email,
+                "password": pass,
+                "repassword": repass,
+                "isactive": active,
+                "isadmin": admin
+            };
+
+            $.ajax({
+                method: "post",
+                url: "/User/Create",
+                data: model,
+                beforeSend: function () {
+                    $("#loading > .template").clone().appendTo("#modalUserCreate .validation-summary-errors");
+                    $("#modalUserCreate .save").attr("disabled", "disabled");
+                }
+            }).done(function (result) {
+                    //console.log(result, "result");
+
+                    if (result.hasError) {
+                        // Eğer hata varsa;
+                        var errorList = $("<ul></ul>");
+
+                        for (var err of result.errors) {
+                            var errorItem = $("<li></li>");
+                            errorItem.text(err.value);
+
+                            errorList.append(errorItem);
+                        }
+
+                        $("#modalUserCreate .validation-summary-errors").empty().append(errorList);
+
+                    } else {
+                        // Eğer hata yoksa, listeyi güncellemeliyiz.
+                        var list = $("#userlist");
+
+                        list.empty();
+                        $("#loading > .template").clone().appendTo("#userlist");
+                        list.load("/User/UserList");
+
+                        $("#modalUserCreate").modal("hide");
+
+                        //window.location.reload();
+                    }
+
+
+                    //if (result.error) {
+                    //    alert(result.message);
+                    //} else {
+                    //    alert(result.message);
+                    //    $("#modalUserCreate").modal("hide");
+                    //}
+
+                }).fail(function (jqXHR, textStatus) {
+                    console.log(jqXHR, "jqXHR");
+                    console.log(textStatus, "textStatus");
+                }).always(function () {
+                    $("#modalUserCreate .save").removeAttr("disabled");
+                });
+        }
+    </script>
+}
